@@ -1,0 +1,303 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<!-- Mirrored from dleohr.dreamstechnologies.com/template-1/dleohr-vertical/details.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 15:50:38 GMT -->
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" type="image/x-icon" href="{% static 'gestionministere/assets/img/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'gestionministere/assets/css/bootstrap.min.css' %} ">
+
+    <link rel="stylesheet" href="{% static 'gestionministere/assets/css/lnr-icon.css' %}">
+
+    <link rel="stylesheet" href="{% static 'gestionministere/assets/css/font-awesome.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'gestionministere/assets/css/style.css' %}">
+
+    <title> Profil Enseignant </title>
+
+
+    <!--[if lt IE 9]>
+  <script src="assets/js/html5shiv.min.js"></script>
+  <script src="assets/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+
+    <div class="inner-wrapper">
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="top-header-section">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-6">
+                            <div class="logo my-2 my-sm-0">
+                                <a href="">
+                                    <!-- <img src="{% static 'gestionministere/assets/img/mindcaf.jpeg' %}" alt="logo image" width="80px" height="110px"> -->
+                                    <!-- <img src="assets/img/logo.png" alt="logo image" class="img-fluid" width="100"> -->
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-6 text-right">
+                            <div class="user-block d-none d-lg-block">
+                                <div class="row align-items-center">
+                                    <div class=" col-7 text-center align-center">
+                                        <h2 class="text-center titre-app align-center">Plateforme de gestion des carrières <br> du Personnel Enseignant </h2>
+                                    </div>
+                                    <div class="col-lg-5 col-md-12 col-sm-12">
+                                        <div class="user-notification-block align-right d-inline-block">
+                                            <div class="top-nav-search">
+                                                <form>
+                                                    <input type="search" autocomplete id="searchbar-welcome" class="form-control"
+                                                        placeholder="Rechercher ici..">
+                                                    <button class="btn" type="submit"><i  style="color:blue;"
+                                                            class="fa fa-search"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+        
+        
+                                        {% if user.is_authenticated %}
+                                        <div class="user-info align-right dropdown d-inline-block header-dropdown">
+                                            <a href="javascript:void(0)" data-toggle="dropdown"
+                                                class=" menu-style dropdown-toggle">
+                                                <div class="user-avatar d-inline-block">
+                                                    <img src="{% static 'gestionministere/assets/img/profiles/user-default.png' %}" alt="user avatar"
+                                                        class="rounded img-fluid" style="color:blue" width="60">
+                                                </div>
+                                            </a>
+                                            <div class="dropdown-menu notification-dropdown-menu shadow-lg border-0 p-3 m-0 dropdown-menu-right">
+                                                <form class="dropdown-item p-2" method="POST" action="">
+                                                    {% csrf_token %}
+                                                        <li>
+                                                            <a href="{% url 'gestionministere:show_enseignant' user.id %}"
+                                                            class="dropdown-item"> Profile
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{% url 'accounts:logout_user' %}"
+                                                            
+                                                            class="dropdown-item"> Déconnextion
+                                                            </a>
+                                                        </li>
+                                                    </form>                                         
+                                            </div>
+        
+                                        </div>
+                                        {% else %}
+                                        <div class="user-info align-right dropdown d-inline-block header-dropdown">
+                                            <a href="javascript:void(0)" data-toggle="dropdown"
+                                                class=" menu-style dropdown-toggle">
+                                                <div class="user-avatar d-inline-block">
+                                                    <img src="{% static 'gestionministere/assets/img/profiles/login2.png' %}" alt="user avatar"
+                                                        class="rounded img-fluid" style="color:blue" width="60">
+                                                </div>
+                                            </a>
+        
+                                            <div
+                                                class="dropdown-menu notification-dropdown-menu shadow-lg border-0 p-3 m-0 dropdown-menu-right">
+
+                                                        <li>
+                                                            <a href="{% url 'accounts:login_user' %}"
+                                                            class="dropdown-item"> CONNEXION
+                                                            </a>
+                                                        </li>
+                                                 
+                                            </div>
+        
+                                        </div>
+                                        {% endif %}
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-block d-lg-none">
+                                <a href="javascript:void(0)">
+                                    <span class="lnr lnr-user d-block display-5 text-white" id="open_navSidebar"></span>
+                                </a>
+        
+                                <div class="offcanvas-menu" id="offcanvas_menu">
+                                    <span
+                                        class="lnr lnr-cross float-left display-6 position-absolute t-1 l-1 text-white"
+                                        id="close_navSidebar"></span>
+                                    <div class="user-info align-center bg-theme text-center">
+                                        <a href="javascript:void(0)" class="d-block menu-style text-white">
+                                            <div class="user-avatar d-inline-block mr-3">
+                                                <img src="assets/img/profiles/img-6.jpg" alt="user avatar"
+                                                    class="rounded-circle img-fluid" width="55">
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="user-notification-block align-center">
+                                        <div class="top-nav-search">
+                                            <form>
+                                                <input type="text" class="form-control" placeholder="Search here">
+                                                <button class="btn" type="submit"><i
+                                                        class="fa fa-search"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="user-menu-items px-3 m-0">
+                                        <a class="px-0 pb-2 pt-0" href="index.html">
+                                            <span class="media align-items-center">
+                                                <span class="lnr lnr-home mr-3"></span>
+                                                <span class="media-body text-truncate text-left">
+                                                    <span class="text-truncate text-left">Dashboard</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </header>
+        
+
+        <!-- HEADER -->
+
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-xl-12 col-lg-12  col-md-12">
+                        <div class="row">
+                            <div class="col-xl-4 col-lg-12 col-md-12">
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-6 col-md-6 d-flex">
+                                        <div class="card ctm-border-radius shadow-sm grow flex-fill">
+                                            <div class="card-header">
+                                                <h4 class="card-title mb-0 text-center font-weight-bold">Photo</h4>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <img alt="avatar image"
+                                                    src="{% static 'gestionministere/assets/img/profiles/user-default.png' %}"
+                                                    class="img-fluid">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-6 col-md-6 d-flex">
+                                        <div class="card ctm-border-radius shadow-sm grow flex-fill">
+                                            <div class="card-header">
+                                                <h4 class="card-title mb-0 text-center font-weight-bold">Contacts</h4>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <p class="card-text mb-3"><span class="text-primary">Email :</span>
+                                                    <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+                                                </p>
+                                                <p class="card-text mb-3"><span class="text-primary">Téléphone
+                                                        :</span><b>
+                                                        {{ profil.formatted_telephone }} </b></p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-6 col-md-6 d-flex">
+                                <div class="card flex-fill ctm-border-radius shadow-sm grow">
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-0 text-center font-weight-bold">Personnelles </h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <p class="card-text mb-3"><span class="text-primary">Nom(s) :</span>
+                                            {{ user.username }}
+                                        </p>
+                                        <p class="card-text mb-3"><span class="text-primary">Prénom(s) :
+                                            </span>------
+                                        </p>
+
+                                        <p class="card-text mb-3"><span class="text-primary">Date de naissance :</span>
+                                            {{ profil.dateNaissance }}</p>
+                                            
+                                        <p class="card-text mb-3"><span class="text-primary">Sexe :
+                                            </span>{{ profil.sexe }}
+                                        </p>
+                                        <p class="card-text mb-3"><span class="text-primary">Situation Matrimoniale :
+                                            </span>{{ profil.situationMatrimoniale }}
+                                        </p>
+                                        <p class="card-text mb-3"><span class="text-primary">Region d'Origine :</span>
+                                            {{ profil.departementOrigine.region.name }}
+                                        <p class="card-text mb-3"><span class="text-primary">Département d'Origine
+                                                :</span> {{ profil.departementOrigine.name }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-6 col-md-6 d-flex">
+                                <div class="card flex-fill  ctm-border-radius shadow-sm grow">
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-0 text-center font-weight-bold"> Professionnelles</h4>
+                                    </div>
+                                    <div class="card-body text-center">
+                                        <p class="card-text mb-3"><span class="text-primary">Matricule :
+                                            </span>{{ profil.matricule }}
+                                        </p>
+                                        <p class="card-text mb-3"><span class="text-primary">Etablissement :
+                                            </span><span>{{ profil.etablissement.name }}</span>
+                                        </p>
+                                        <p class="card-text mb-3"><span class="text-primary">Spécialité :
+                                            </span><span>{{ profil.matiere.name }}</span>
+                                        </p>
+                                        <p class="card-text mb-3"><span class="text-primary">Catégorie :
+                                            </span><span>{{ profil.categorie }}</span>
+                                        </p>
+                                        <p class="card-text mb-3"><span class="text-primary">Prise de Service :
+                                            </span>{{ profil.anneeSortie }}</p>
+                                        <p class="card-text mb-3"><span class="text-primary">Expérience (Curriculum
+                                                Vitae) :
+                                            </span>
+                                            {% if profil.cv %} 
+                                                <a href="{% url 'gestionministere:download_cv' user.id %}"
+                                                    class="btn-one"><span>TELECHARGER CV</span> <i
+                                                        class="fa-solid fa-angles-right"></i></a>
+                                            {% else %}
+                                                <span>Aucun </span>
+                                            {% endif %}
+                                        </p>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <script src="{% static 'gestionministere/assets/js/jquery-3.2.1.min.js' %}" type="647b56e7c0d4cdeba6be909f-text/javascript"></script>
+
+    <script src="{% static 'gestionministere/assets/js/popper.min.js' %}" type="647b56e7c0d4cdeba6be909f-text/javascript"></script>
+    <script src="{% static 'gestionministere/assets/js/bootstrap.min.js' %}" type="647b56e7c0d4cdeba6be909f-text/javascript"></script>
+
+    <script src="{% static 'gestionministere/assets/plugins/theia-sticky-sidebar/ResizeSensor.js' %}"
+         type="647b56e7c0d4cdeba6be909f-text/javascript"></script>
+    <script src="{% static 'gestionministere/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"
+         type="647b56e7c0d4cdeba6be909f-text/javascript"></script>
+
+    <script src="{% static 'gestionministere/assets/js/script.js' %}" type="647b56e7c0d4cdeba6be909f-text/javascript"></script>
+    <script src="{% static '../../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js' %}"
+        data-cf-settings="647b56e7c0d4cdeba6be909f-|49" defer></script>
+</body>
+
+<!-- Mirrored from dleohr.dreamstechnologies.com/template-1/dleohr-vertical/details.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 15:50:38 GMT -->
+
+</html>

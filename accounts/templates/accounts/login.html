@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from dleohr.dreamstechnologies.com/template-1/dleohr-vertical/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 06:55:07 GMT -->
+
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="icon" type="image/x-icon" href="{% static 'gestionministere/assets/img/favicon.png' %}">
+
+	<link rel="stylesheet" href="{% static 'gestionministere/assets/css/bootstrap.min.css' %}">
+
+	<link rel="stylesheet" href="{% static 'gestionministere/assets/css/lnr-icon.css' %}">
+
+	<link rel="stylesheet" href="{% static 'gestionministere/assets/css/font-awesome.min.css' %}">
+
+	<link rel="stylesheet" href="{% static 'gestionministere/assets/css/style.css' %}">
+	<title>Page connexion</title>
+
+	<!--[if lt IE 9]>
+		<script src="{% static 'gestionministere/assets/js/html5shiv.min.js' %}"></script>
+		<script src="{% static 'gestionministere/assets/js/respond.min.js' %}"></script>
+		<![endif]-->
+</head>
+
+<body>
+
+	<div class="inner-wrapper login-body">
+		<div class="login-wrapper">
+			<div class="container">
+				<div class="loginbox shadow-sm grow">
+					<div class="login-left">
+						<!-- <img class="img-fluid" src="{% static 'gestionministere/assets/img/logo.png' %}" alt="Logo"> -->
+					</div>
+					<div class="login-right">
+						<div class="login-right-wrap">
+							<h1>Connexion</h1>
+							<p class="account-subtitle">Accéder au Tableau de bord</p>
+
+							<form action="." method="POST">
+								{% csrf_token %}
+								<div class="form-group">
+									<input class="form-control" type="text" name="username" placeholder="Nom d'utilisateur">
+								</div>
+								<div class="form-group">
+									<input class="form-control" type="password" name="password" placeholder="Mot de passe">
+								</div>
+								<div class="form-group">
+									<button class="btn btn-theme button-1 text-white ctm-border-radius btn-block"
+										type="submit">Connexion</button>
+								</div>
+							</form>
+
+							<div class="text-center forgotpass"><a href="forgot-password.html">Mot de passe oublié ?</a>
+							</div>
+							<div class="login-or">
+								<span class="or-line"></span>
+								<span class="span-or">or</span>
+							</div>
+
+							<!-- <div class="social-login">
+								<span>Login with</span>
+								<a href="javascript:void(0)" class="facebook"><i class="fa fa-facebook"></i></a><a
+									href="javascript:void(0)" class="google"><i class="fa fa-google"></i></a>
+							</div> -->
+
+							<!-- <div class="text-center dont-have">Don’t have an account? <a
+									href="register.html">Register</a></div> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="{% static 'gestionministere/assets/js/jquery-3.2.1.min.js' %}" type="716dda4b7cd9eccf8ed30d30-text/javascript"></script>
+
+	<script src="{% static 'gestionministere/assets/js/popper.min.js' %}" type="716dda4b7cd9eccf8ed30d30-text/javascript"></script>
+	<script src="{% static 'gestionministere/assets/js/bootstrap.min.js' %}" type="716dda4b7cd9eccf8ed30d30-text/javascript"></script>
+
+	<script src="{% static 'gestionministere/assets/plugins/theia-sticky-sidebar/ResizeSensor.js' %}"
+		type="716dda4b7cd9eccf8ed30d30-text/javascript"></script>
+	<script src="{% static 'gestionministere/assets/plugins/theia-sticky-sidebar/theia-sticky-sidebar.js' %}"
+		type="716dda4b7cd9eccf8ed30d30-text/javascript"></script>
+
+	<script src="{% static 'gestionministere/assets/js/script.js' %}" type="716dda4b7cd9eccf8ed30d30-text/javascript"></script>
+	<script src="../../cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
+		data-cf-settings="716dda4b7cd9eccf8ed30d30-|49" defer></script>
+</body>
+
+<!-- Mirrored from dleohr.dreamstechnologies.com/template-1/dleohr-vertical/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 06:55:08 GMT -->
+
+</html>

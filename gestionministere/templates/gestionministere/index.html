@@ -1,0 +1,433 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from dleohr.dreamstechnologies.com/template-1/dleohr-vertical/employees.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 15:50:04 GMT -->
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" type="image/x-icon" href="{% static 'gestionministere/assets/img/favicon.png' %}">
+
+    <link rel="stylesheet" href="{% static 'gestionministere/assets/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'gestionministere/assets/css/lnr-icon.css' %}">
+
+    <link rel="stylesheet" href="{% static 'gestionministere/assets/css/font-awesome.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'gestionministere/assets/css/style.css' %}">
+    <title> Accueil  </title>
+
+
+    <!--[if lt IE 9]>
+  <script src="{% static 'gestionministere/assets/js/html5shiv.min.js"></script>
+  <script src="{% static 'gestionministere/assets/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body>
+    <div class="bandeau">
+        <div class="etoile">
+            <img src="{% static 'gestionministere/assets/img/etoile.png' %} " alt="User Image">
+        </div>
+    </div>
+    
+    <div class="inner-wrapper">
+
+        <!-- header -->
+        <header class="header">
+            <div class="top-header-section">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-6">
+                            <div class="logo my-2 my-sm-0">
+                                <a href="">
+                                    <!-- <img src="{% static 'gestionministere/assets/img/mindcaf.jpeg' %}" alt="logo image" width="80px" height="110px"> -->
+                                    <!-- <img src="assets/img/logo.png" alt="logo image" class="img-fluid" width="100"> -->
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-6 text-right">
+                            <div class="user-block d-none d-lg-block">
+                                <div class="row align-items-center">
+                                    <div class=" col-7 text-center align-center">
+                                        <h2 class="text-center titre-app align-center">Plateforme de gestion des carrières <br> du Personnel Enseignant </h2>
+                                    </div>
+                                    <div class="col-lg-5 col-md-12 col-sm-12">
+                                        <div class="user-notification-block align-right d-inline-block">
+                                            <div class="top-nav-search">
+                                                <form>
+                                                    <input type="search" autocomplete id="searchbar-welcome" class="form-control"
+                                                        placeholder="Rechercher ici..">
+                                                    <button class="btn" type="submit"><i  style="color:blue;"
+                                                            class="fa fa-search"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+        
+        
+                                        {% if user.is_authenticated %}
+                                        <div class="user-info align-right dropdown d-inline-block header-dropdown">
+                                            <a href="javascript:void(0)" data-toggle="dropdown"
+                                                class=" menu-style dropdown-toggle">
+                                                <div class="user-avatar d-inline-block">
+                                                    <img src="{% static 'gestionministere/assets/img/profiles/user-default.png' %}" alt="user avatar"
+                                                        class="rounded img-fluid" style="color:blue" width="60">
+                                                </div>
+                                            </a>
+                                            <div class="dropdown-menu notification-dropdown-menu shadow-lg border-0 p-3 m-0 dropdown-menu-right">
+                                                <form class="dropdown-item p-2" method="POST" action="">
+                                                    {% csrf_token %}
+                                                        <li>
+                                                            <a href="{% url 'gestionministere:show_enseignant' user.id %}"
+                                                            class="dropdown-item"> Profile
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{% url 'accounts:logout_user' %}"
+                                                            
+                                                            class="dropdown-item"> Déconnextion
+                                                            </a>
+                                                        </li>
+                                                    </form>                                         
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <div class="user-info align-right dropdown d-inline-block header-dropdown">
+                                            <a href="javascript:void(0)" data-toggle="dropdown"
+                                                class=" menu-style dropdown-toggle">
+                                                <div class="user-avatar d-inline-block">
+                                                    <img src="{% static 'gestionministere/assets/img/profiles/login2.png' %}" alt="user avatar"
+                                                        class="rounded img-fluid" style="color:blue" width="60">
+                                                </div>
+                                            </a>
+        
+                                            <div
+                                                class="dropdown-menu notification-dropdown-menu shadow-lg border-0 p-3 m-0 dropdown-menu-right">
+
+                                                        <li>
+                                                            <a href="{% url 'accounts:login_user' %}"
+                                                            class="dropdown-item"> CONNEXION
+                                                            </a>
+                                                        </li>
+
+                                                 
+                                            </div>
+        
+                                        </div>
+                                        {% endif %}
+                                    
+                                        
+        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-block d-lg-none">
+                                <a href="javascript:void(0)">
+                                    <span class="lnr lnr-user d-block display-5 text-white" id="open_navSidebar"></span>
+                                </a>
+        
+                                <div class="offcanvas-menu" id="offcanvas_menu">
+                                    <span
+                                        class="lnr lnr-cross float-left display-6 position-absolute t-1 l-1 text-white"
+                                        id="close_navSidebar"></span>
+                                    <div class="user-info align-center bg-theme text-center">
+                                        <a href="javascript:void(0)" class="d-block menu-style text-white">
+                                            <div class="user-avatar d-inline-block mr-3">
+                                                <img src="assets/img/profiles/img-6.jpg" alt="user avatar"
+                                                    class="rounded-circle img-fluid" width="55">
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="user-notification-block align-center">
+                                        <div class="top-nav-search">
+                                            <form>
+                                                <input type="text" class="form-control" placeholder="Search here">
+                                                <button class="btn" type="submit"><i
+                                                        class="fa fa-search"></i></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="user-menu-items px-3 m-0">
+                                        <a class="px-0 pb-2 pt-0" href="index.html">
+                                            <span class="media align-items-center">
+                                                <span class="lnr lnr-home mr-3"></span>
+                                                <span class="media-body text-truncate text-left">
+                                                    <span class="text-truncate text-left">Dashboard</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <a class="p-2" href="employees.html">
+                                            <span class="media align-items-center">
+                                                <span class="lnr lnr-users mr-3"></span>
+                                                <span class="media-body text-truncate text-left">
+                                                    <span class="text-truncate text-left">Employees</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <a class="p-2" href="company.html">
+                                            <span class="media align-items-center">
+                                                <span class="lnr lnr-apartment mr-3"></span>
+                                                <span class="media-body text-truncate text-left">
+                                                    <span class="text-truncate text-left">Company</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <a class="p-2" href="calendar.html">
+                                            <span class="media align-items-center">
+                                                <span class="lnr lnr-calendar-full mr-3"></span>
+                                                <span class="media-body text-truncate text-left">
+                                                    <span class="text-truncate text-left">Calendar</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <a class="p-2" href="leave.html">
+                                            <span class="media align-items-center">
+                                                <span class="lnr lnr-briefcase mr-3"></span>
+                                                <span class="media-body text-truncate text-left">
+                                                    <span class="text-truncate text-left">Leave</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <a class="p-2" href="reviews.html">
+                                            <span class="media align-items-center">
+                                                <span class="lnr lnr-star mr-3"></span>
+                                                <span class="media-body text-truncate text-left">
+                                                    <span class="text-truncate text-left">Reviews</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <a class="p-2" href="reports.html">
+                                            <span class="media align-items-center">
+                                                <span class="lnr lnr-rocket mr-3"></span>
+                                                <span class="media-body text-truncate text-left">
+                                                    <span class="text-truncate text-left">Reports</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <a class="p-2" href="manage.html">
+                                            <span class="media align-items-center">
+                                                <span class="lnr lnr-sync mr-3"></span>
+                                                <span class="media-body text-truncate text-left">
+                                                    <span class="text-truncate text-left">Manage</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <a class="p-2" href="settings.html">
+                                            <span class="media align-items-center">
+                                                <span class="lnr lnr-cog mr-3"></span>
+                                                <span class="media-body text-truncate text-left">
+                                                    <span class="text-truncate text-left">Settings</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <a class="p-2" href="employment.html">
+                                            <span class="media align-items-center">
+                                                <span class="lnr lnr-user mr-3"></span>
+                                                <span class="media-body text-truncate text-left">
+                                                    <span class="text-truncate text-left">Profile</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                        <a class="p-2" href="login.html">
+                                            <span class="media align-items-center">
+                                                <span class="lnr lnr-power-switch mr-3"></span>
+                                                <span class="media-body text-truncate text-left">
+                                                    <span class="text-truncate text-left">Logout</span>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </header>
+        
+        <!-- header -->
+
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-xl-12 col-lg-12 col-md-12">
+
+                        <div class="card shadow-sm ctm-border-radius grow">
+                            <div class="card-body align-center">
+                                <form action="." method="POST">
+                                    {% csrf_token %}
+                                    <div class="row filter-row">
+                                        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
+                                            <div class="form-group mb-xl-0 mb-md-2 mb-sm-2">
+                                                <select id="region_id" name="region_id" class="form-control select required">
+                                                    <option disabled selected>Selectionnez la region</option>
+                                                    {% for region in regions %}
+                                                        <option  value="{{ region.id }}">
+                                                            {{ region.name }}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
+                        
+                                            <select name="departement_id" class="form-control select" id="department_id">
+                                                <option disabled selected>Selectionnez le departement</option>
+                                                {% for departement in departements %}
+                                                    <option value="{{ departement.id }}"> 
+                                                        {{ departement.name }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
+                                            <div class="form-group mb-lg-0 mb-md-0 mb-sm-0">
+                                                <input type="search"  name="user_name"
+                                                    class="form-control datetimepicker" placeholder="nom_de_la_personne">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-3">
+                                            <!-- <a href="#"
+                                                class="btn btn-theme button-1 text-white btn-block p-2 mb-md-0 mb-sm-0 mb-lg-0 mb-0">
+                                                Rechercher</a>  -->
+                                            <button type="submit"
+                                                class="btn btn-theme button-1 text-white btn-block p-2 mb-md-0 mb-sm-0 mb-lg-0 mb-0">Rechercher</button>
+                                            
+                                                <!-- <button type="reset"
+                                                    class="btn btn-theme btn-xs  text-white   ">Clear</button>
+                                             -->
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        
+
+                        
+                            <!-- <h6 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">For category
+                                <strong class="text-primary"> jjjjjj
+                                    jjjjjjjj</strong>
+                            </h6> -->
+                        
+                            <!-- <h6 class="text-center wow fadeInUp" data-wow-delay="0.1s">Search results : <strong
+                                    class="text-primary">
+                                    @if ($users === '
+                                        0
+                                    @else
+                                         $users->count() 
+                                    @endif
+                                </strong> Personnel(s) trouvé(es)
+                            </h6>
+                            <p class="text-center mb-5 fst-italic">
+                                <small>
+                                    Region : <strong
+                                        class="text-primary"> Region::find(request()->region)->name : Empty </strong>,
+                                    Département : <strong
+                                        class="text-primary"> Department::find(request()->department)->name : Empty </strong>
+                                    Keyword : <strong
+                                        class="text-primary">  Empty </strong>,
+
+                                </small>
+                            </p> -->
+                        
+
+                        <div class="ctm-border-radius shadow-sm grow card">
+                            <div class="card-body">
+
+                                <div class="row people-grid-row">
+                                    {% for user in users %}
+                                        <div class="col-md-6 col-lg-6 col-xl-3">
+                                            <div class="card widget-profile">
+                                                <div class="card-body">
+                                                    <div class="pro-widget-content text-center">
+                                                        <div class="profile-info-widget">
+                                                            <a href="#"
+                                                                class="booking-doc-img">
+                                                                <img src="{% static 'gestionministere/assets/img/profiles/user-default.png' %}"
+                                                                    alt="User Image">
+                                                            </a>
+                                                            <div class="profile-det-info">
+                                                                <h4><a href="  "
+                                                                        class="text-default">
+                                                                         {{ user.username }} </a></h4>
+                                                                <div>
+                                                                    <p class="mb-0">
+                                                                        <b> {{ user.email }}
+                                                                        </b>
+                                                                    </p>
+                                                                    <p class="mb-0 text-primary ">
+                                                                        <small><strong>{{ user.username }} </strong></small>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <nav aria-label="Page navigation example" class="float-right" style="margin-left: auto">
+                                <ul class="pagination">
+                                     
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    -- <div class="sidebar-overlay" id="sidebar_overlay"></div>
+
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script> --
+    <script src="{% static 'gestionministere/assets/js/jquery-3.2.1.min.js' %}" type="7cb0b84ef174bc54b183b1ca-text/javascript"></script>
+
+    <script src="{% static 'gestionministere/assets/js/popper.min.js' %}" type="7cb0b84ef174bc54b183b1ca-text/javascript"></script>
+    <script src="{% static 'gestionministere/assets/js/bootstrap.min.js' %}" type="7cb0b84ef174bc54b183b1ca-text/javascript"></script>
+
+   
+    <script type="text/javascript">
+        $(document).ready(function() {
+            
+            $('#region_name').on('change', function() {
+                var regionID = jQuery(this).val();
+                if (regionID) {
+                    jQuery.ajax({
+                        url: 'dropdownlist/searchYourdepartment/' + regionID,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            console.log(data);
+                            $('#department_name').empty();
+                            jQuery.each(data, function(key, value) {
+                                $('#department_name').append(
+                                    '<option value="' + key + '">' + value +
+                                    '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#department_name').empty();
+                }
+            });
+        });
+    </script>
+    
+    
+
+</body>
+
+<!-- Mirrored from dleohr.dreamstechnologies.com/template-1/dleohr-vertical/employees.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 15:50:06 GMT -->
+
+</html>
