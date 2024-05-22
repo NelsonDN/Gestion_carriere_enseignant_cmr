@@ -80,25 +80,38 @@ def show_enseignant(request, user_id):
     
     return render(request,"gestionministere/details.html", context)
 
-def avancement(request):
+# def increment_avancement_view(request):
+#     enseignants = ProfilEnseignant.objects.all()
+#     current_year = now().year
+    
+#     for enseignant in enseignants:
+#         years_since_graduation = current_year - enseignant.anneeSortie.year
+#         expected_avancement = years_since_graduation // 2
+        
+#         if enseignant.avancement < expected_avancement:
+#             enseignant.avancement = expected_avancement
+#             enseignant.save()
 
-    users = ProfilEnseignant.objects.all()
-    anneeActuelle = now().year
+#     return HttpResponse("Terminé avec succès")
 
-    for user in users:
-        if user.dernierAnneeVerif > 1:
-            # diff = relativedelta(anneeActuelle, user.dernierAnneeVerif)
-            if anneeActuelle - user.dernierAnneeVerif >=2:
-                print(anneeActuelle - user.dernierAnneeVerif)
-                user.avancement +=1
-                user.dernierAnneeVerif = anneeActuelle
-                user.save()
-        elif anneeActuelle - user.anneeSortie.year >=2:
-            # print(anneeActuelle - user.anneeSortie.year)
-            user.avancement +=1
-            user.save()
+def increment_avancement_view(request):
+    enseignants = ProfilEnseignant.objects.all()
+    current_date = now().date()
+    
+    for enseignant in enseignants:
+        annee_sortie = enseignant.anneeSortie
+        # Utiliser relativedelta pour calculer la différence en années
+        difference = relativedelta(current_date, annee_sortie)
+        years_since_graduation = difference.years
+        
+        # Calculer le nombre attendu d'avancements
+        expected_avancement = years_since_graduation // 2
+        
+        if enseignant.avancement < expected_avancement:
+            enseignant.avancement = expected_avancement
+            enseignant.save()
 
-    return HttpResponse("Terminé avec succès")
+    return HttpResponse("Avancement updated successfully for all enseignants.")
 
 @user_passes_test(is_not_superuser)
 @login_required

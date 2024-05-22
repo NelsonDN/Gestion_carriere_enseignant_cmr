@@ -20,7 +20,24 @@
 
     <title> Profil Enseignant </title>
 
+    <style>
 
+        table, th, td{
+            border:1px solid #899cf0;
+        }
+        table{
+            border-collapse: collapse;
+        }
+        thead tr td{
+            text-align: center;
+            font-weight: bold;
+        }
+
+        th, td {
+            padding: 20px;
+            text-align: left;
+        }
+    </style>
     <!--[if lt IE 9]>
   <script src="assets/js/html5shiv.min.js"></script>
   <script src="assets/js/respond.min.js"></script>
@@ -289,18 +306,22 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-xl-12 col-lg-12 col-md-6 d-flex">
+                    <div class="col-3"></div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 d-flex">
                         <div class="card flex-fill ctm-border-radius shadow-sm grow">
                             <div class="card-header">
                                 <h4 class="card-title mb-0 text-center font-weight-bold">Historique de Carrière</h4>
                             </div>
-                            <div class="card-body text-center">
-                                <table style="align-items: center;">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                <table sclass="table table-striped table-bordered text-center">
                                     <thead>
-                                        <th>Poste</th>
-                                        <th>Année Entrée</th>
-                                        <th>Année Sortie</th>
-                                        <th>Etablissement</th>
+                                        <tr>
+                                            <td>Poste</td>
+                                            <td>Année Entrée</td>
+                                            <td>Année Sortie</td>
+                                            <td>Etablissement</td>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         {% for carriere in carrieres %}
@@ -311,14 +332,21 @@
                                             <td>---</td>
                                             {% endif %}
                                             <td>{{ carriere.anneeArrive }}</td>
+                                            {% if carriere.anneeDepart %}
                                             <td>{{ carriere.anneeDepart }}</td>
+                                            {% else %}
+                                            <td>---</td>
+                                            {% endif %}
                                             <td>{{ carriere.etablissement }}</td>
                                         </tr>
                                         {% empty %}
-                                            ....
+                                        <tr>
+                                            <td colspan="4">Aucune donnée disponible</td>
+                                        </tr>
                                         {% endfor %}
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
                     </div>

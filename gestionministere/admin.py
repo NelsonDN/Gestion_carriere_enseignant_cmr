@@ -11,7 +11,7 @@ from django.db.models import Avg
 from datetime import date
 from django.contrib.admin import ModelAdmin
 from django.utils.safestring import mark_safe
-from .views import avancement
+from .views import increment_avancement_view
 # Register your models here.
 class PosteInline(admin.TabularInline):
     model = Etablissement.poste.through
@@ -109,7 +109,7 @@ class EnseignantAdmin(admin.ModelAdmin):
     
     def custom_action(modeladmin, request, queryset):
         for obj in queryset:
-            avancement(obj)
+            increment_avancement_view(obj)
         
         modeladmin.message_user(request, "La mise à jour des avancements a été exécutée avec succès!")
     custom_action.short_description = "LANCER LA MISE A JOUR DES AVANCEMENTS"
