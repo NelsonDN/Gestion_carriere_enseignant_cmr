@@ -11,6 +11,7 @@ from django.db.models import Avg
 from datetime import date
 from django.contrib.admin import ModelAdmin
 from django.utils.safestring import mark_safe
+from .views import avancement
 # Register your models here.
 class PosteInline(admin.TabularInline):
     model = Etablissement.poste.through
@@ -93,7 +94,7 @@ class MatiereAdmin(admin.ModelAdmin):
 class EnseignantAdmin(admin.ModelAdmin):
     form = EnseignantCreationForm
 
-    list_display = ('nom_enseignant', 'email', 'etablissement', 'matricule', 'specialite', 'avancement', 'Consulter_carriere')
+    list_display = ('nom_enseignant', 'email', 'etablissement', 'anneeSortie', 'matricule', 'specialite', 'avancement', 'Consulter_carriere')
     inlines = [ProfileInline]
 
     def get_form(self, request, obj=None, **kwargs):
@@ -105,6 +106,15 @@ class EnseignantAdmin(admin.ModelAdmin):
         return format_html('<a href="/admin/gestionministere/carriere/?user__id__exact={}">Consulter</a>'.format(obj.id))
     Consulter_carriere.allow_tags = True
     Consulter_carriere.short_description = "Historique carrière"
+    
+    def custom_action(modeladmin, request, queryset):
+        for obj in queryset:
+            avancement(obj)
+        
+        modeladmin.message_user(request, "La mise à jour des avancements a été exécutée avec succès!")
+    custom_action.short_description = "LANCER LA MISE A JOUR DES AVANCEMENTS"
+
+    actions=[custom_action]
 
     def nom_enseignant(self, obj):
         return obj.username
@@ -112,6 +122,10 @@ class EnseignantAdmin(admin.ModelAdmin):
     def etablissement(self, obj):
         profil = ProfilEnseignant.objects.get(user=obj)
         return profil.etablissement.name 
+    
+    def anneeSortie(self, obj):
+        profil = ProfilEnseignant.objects.get(user=obj)
+        return profil.anneeSortie 
     
     def departement(self, obj):
         profil = ProfilEnseignant.objects.get(user=obj)
@@ -147,6 +161,6 @@ class CarriereAdmin(admin.ModelAdmin):
 class ProfilAdmin(admin.ModelAdmin):
     fields = ['user', 'matricule', 'etablissement']
 
-    list_display = ('user', 'matricule', 'etablissement')
+    list_display = ('user', 'matricule', 'etablissement', 'anneeSortie')
     list_filter = ['user']
     list_per_page = 10

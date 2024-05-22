@@ -254,7 +254,18 @@
                                         <p class="card-text mb-3"><span class="text-primary">Catégorie :
                                             </span><span>{{ profil.categorie }}</span>
                                         </p>
-                                        <p class="card-text mb-3"><span class="text-primary">Prise de Service :
+                                        <p class="card-text mb-3"><span class="text-primary">Avancement :
+                                            </span><span>{{ profil.avancement }}</span>
+                                        </p>
+                                        <p class="card-text mb-3"><span class="text-primary">Poste occupé :
+                                        </span>
+                                        {% if poste_user %} 
+                                            <span>{{ poste_user.poste }}</span>
+                                        {% else %}
+                                            <span>Enseignant </span>
+                                        {% endif %}
+                                    </p>
+                                        <p class="card-text mb-3"><span class="text-primary">Année de sortie :
                                             </span>{{ profil.anneeSortie }}</p>
                                         <p class="card-text mb-3"><span class="text-primary">Expérience (Curriculum
                                                 Vitae) :
@@ -273,6 +284,42 @@
                                 </div>
                             </div>
 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-6 d-flex">
+                        <div class="card flex-fill ctm-border-radius shadow-sm grow">
+                            <div class="card-header">
+                                <h4 class="card-title mb-0 text-center font-weight-bold">Historique de Carrière</h4>
+                            </div>
+                            <div class="card-body text-center">
+                                <table style="align-items: center;">
+                                    <thead>
+                                        <th>Poste</th>
+                                        <th>Année Entrée</th>
+                                        <th>Année Sortie</th>
+                                        <th>Etablissement</th>
+                                    </thead>
+                                    <tbody>
+                                        {% for carriere in carrieres %}
+                                        <tr>
+                                            {% if carriere.poste %}
+                                            <td>{{ carriere.poste }}</td>
+                                            {% else %}
+                                            <td>---</td>
+                                            {% endif %}
+                                            <td>{{ carriere.anneeArrive }}</td>
+                                            <td>{{ carriere.anneeDepart }}</td>
+                                            <td>{{ carriere.etablissement }}</td>
+                                        </tr>
+                                        {% empty %}
+                                            ....
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -105,6 +105,7 @@ class ProfilEnseignant(models.Model):
     situationMatrimoniale = models.CharField(max_length=64, verbose_name= "Situation Matrimoniale")
     categorie = models.CharField(max_length=64, verbose_name= "Categorie")
     avancement = models.IntegerField(default=0, null=True, blank=True, verbose_name= "Avancement")
+    dernierAnneeVerif = models.IntegerField(default=0, null=True, blank=True, verbose_name= "DerniereAnnee")
 
 
     def __str__(self):

@@ -21,7 +21,11 @@ class Etablissement_PosteForm(forms.ModelForm):
         # les departement de postes 
         departements = Departement.objects.all()
         employe_ids = Etablissement_Poste.objects.filter(etablissement=etablissement, poste=poste).values_list('user', flat=True)
+        print("emploooooooooooo")
+        print(employe_ids)
         all_employe_ids =  Etablissement_Poste.objects.all().values_list('user', flat=True)
+        print("alllllllll")
+        print(all_employe_ids)
         departement_ids = ProfilEnseignant.objects.filter(user__in = employe_ids).values_list('departementOrigine', flat=True)
         # profils = ProfilEnseignant.objects.exclude(departementOrigine__in = employe_ids).exclude(user__in = all_employe_ids)
 
@@ -29,23 +33,35 @@ class Etablissement_PosteForm(forms.ModelForm):
         anciennete_min = poste.anciennete_min
         # Calculer l'année actuelle
         anneeCourante = now().year
+        print("ANNEEEEEEEEEEEEEEEEEEEEE")
+        print(anneeCourante)
 
         # censeur les matieres 
         if poste.is_censeur:
             profil_enseignant_eligible_ids = ProfilEnseignant.objects.annotate(
                 anciennete=anneeCourante - F('anneeSortie__year')
-            ).exclude(departementOrigine__in = employe_ids
-            ).exclude(user__in = all_employe_ids
             ).filter(anciennete__gte=anciennete_min
             ).filter(matiere = poste.matiere
             ).values_list('user', flat=True)
         else:
             profil_enseignant_eligible_ids = ProfilEnseignant.objects.annotate(
                 anciennete=anneeCourante - F('anneeSortie__year')
-            ).exclude(departementOrigine__in = employe_ids
-            ).exclude(user__in = all_employe_ids
             ).filter(anciennete__gte=anciennete_min
+            ).filter(etablissement=etablissement
             ).values_list('user', flat=True)
+
+            # profil_enseignant_eligible_ids = ProfilEnseignant.objects.annotate(
+            #     anciennete=anneeCourante - F('anneeSortie__year')
+            # ).exclude(departementOrigine__in = employe_ids
+            # ).exclude(user__in = all_employe_ids
+            # ).filter(anciennete__gte=anciennete_min
+            # ).filter(etablissement=etablissement
+            # ).values_list('user', flat=True)
+            print("anciennnnnete")
+            # for profil in profil_enseignant_eligible_ids:
+            #     print(profil.anciennete)
+            print("PORFILLLLLLLLLL")
+            print(profil_enseignant_eligible_ids)
 
         users = User.objects.filter(pk__in = profil_enseignant_eligible_ids)
 
@@ -71,20 +87,20 @@ class ProfileEnseignantForm(forms.ModelForm):
     matiere = forms.ModelChoiceField(queryset= Matiere.objects.all(), label="Spécialité")
 
     cv = forms.FileField(label="CV")  
-    dateNaissance = forms.DateField(label="Date de Naissance",
-            widget=forms.DateInput(
-                attrs={
-                    'class': 'form-control',
-                    'type': 'date'
-                }
-            ))  
-    anneeSortie = forms.DateField(label="Année de sortie", 
-            widget=forms.DateInput(
-                attrs={
-                    'class': 'form-control',
-                    'type': 'date'
-                }
-            ))  
+    # dateNaissance = forms.DateField(label="Date de Naissance",
+    #         widget=forms.DateInput(
+    #             attrs={
+    #                 'class': 'form-control',
+    #                 'type': 'date'
+    #             }
+    #         ))  
+    # anneeSortie = forms.DateField(label="Année de sortie", 
+    #         widget=forms.DateInput(
+    #             attrs={
+    #                 'class': 'form-control',
+    #                 'type': 'date'
+    #             }
+    #         ))  
     matricule = forms.CharField(label="Matricule")  
     telephone = forms.CharField(label="Téléphone")  
     sexes = [('M', 'Masculin'), ('F', "Féminin")]
@@ -96,5 +112,5 @@ class ProfileEnseignantForm(forms.ModelForm):
     categorie = forms.ChoiceField(label = "Catégorie", choices = categories)
     
     class Meta:
-        model = Enseignant
+        model = ProfilEnseignant
         fields = ['departementOrigine', 'etablissement', 'cv', 'dateNaissance', 'anneeSortie', 'matricule', 'categorie', 'situationMatrimoniale']

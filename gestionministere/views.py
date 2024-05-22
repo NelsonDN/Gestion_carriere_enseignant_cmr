@@ -7,6 +7,8 @@ from django.contrib import messages
 from django.template import loader
 from mimetypes import guess_type
 from django.db.models import Q
+from django.utils.timezone import now
+from dateutil.relativedelta import relativedelta
 
 
 def is_not_superuser(user):
@@ -61,12 +63,42 @@ def show_enseignant(request, user_id):
     
     user = User.objects.get(pk = user_id)
     profil = ProfilEnseignant.objects.get(user = user)
+    poste_user = None
+    try:
+        poste_user = Etablissement_Poste.objects.get(user=user)
+    except:
+        poste_user = None
+
+    carrieres = Carriere.objects.filter(user=user)
+
     context = {
         "user": user,
-        "profil": profil
+        "profil": profil,
+        "poste_user":poste_user,
+        "carrieres": carrieres
     }
     
     return render(request,"gestionministere/details.html", context)
+
+def avancement(request):
+
+    users = ProfilEnseignant.objects.all()
+    anneeActuelle = now().year
+
+    for user in users:
+        if user.dernierAnneeVerif > 1:
+            # diff = relativedelta(anneeActuelle, user.dernierAnneeVerif)
+            if anneeActuelle - user.dernierAnneeVerif >=2:
+                print(anneeActuelle - user.dernierAnneeVerif)
+                user.avancement +=1
+                user.dernierAnneeVerif = anneeActuelle
+                user.save()
+        elif anneeActuelle - user.anneeSortie.year >=2:
+            # print(anneeActuelle - user.anneeSortie.year)
+            user.avancement +=1
+            user.save()
+
+    return HttpResponse("Terminé avec succès")
 
 @user_passes_test(is_not_superuser)
 @login_required
