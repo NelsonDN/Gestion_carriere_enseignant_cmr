@@ -151,7 +151,7 @@ admin.site.register(Enseignant, EnseignantAdmin)
 
 @admin.register(Carriere)
 class CarriereAdmin(admin.ModelAdmin):
-    fields = ['user','etablissement','performance', 'discipline', 'anneeArrive', 'anneeDepart']
+    fields = ['user','etablissement','performance', 'discipline', 'anneeArrive', 'anneeDepart', 'poste']
 
     list_display = ('user', 'poste', 'anneeArrive', 'anneeDepart', 'etablissement')
     list_filter = ['user']

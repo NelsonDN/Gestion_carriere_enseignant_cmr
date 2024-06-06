@@ -94,6 +94,7 @@ class Enseignant(User):
 class ProfilEnseignant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     matiere = models.ForeignKey(Matiere, null=True, blank=True, on_delete=models.CASCADE)
+    poste = models.ForeignKey(Poste, null=True, blank=True, on_delete=models.CASCADE)
     departementOrigine = models.ForeignKey(Departement, on_delete=models.CASCADE)
     etablissement = models.ForeignKey(Etablissement, on_delete=models.CASCADE)
     cv = models.FileField(upload_to ='enseignant_cvs/', verbose_name= "CV")
@@ -139,14 +140,35 @@ class Carriere(models.Model):
         verbose_name = "Carriere"
         verbose_name_plural = "Carrieres"
 
+@receiver(post_save, sender=Etablissement_Poste)
+def handle_profile_creation_or_update(sender, instance, created, **kwargs):
+    if created:
+        try:
+            user = ProfilEnseignant.objects.get(pk=instance.user)
+            user.poste = instance.poste
+            user.save()
+        except:
+            print('ERREURRRRRRRRRRRRRR')
+
+    else:
+        # Traiter la mise à jour du ProfilEnseignant ici
+        print("Un ProfilEnseignant a été modifié pour l'utilisateur :", instance.user)
+
 @receiver(post_save, sender=ProfilEnseignant)
 def handle_profile_creation_or_update(sender, instance, created, **kwargs):
     if created:
+
+        try:
+            etablissementPoste =  Etablissement_Poste.objects.filter(etablissement = instance.etablissement).first()
+        except:
+            etablissementPoste = None
+
         # Créer un enregistrement Carriere après la création d'un ProfilEnseignant
         Carriere.objects.create(
             user=instance.user,
             etablissement=instance.etablissement,
             anneeArrive=instance.anneeSortie,
+            # poste = etablissementPoste.poste
         )
         print("Un ProfilEnseignant a été créé avec l'utilisateur :", instance.user)
     else:
@@ -161,14 +183,24 @@ def handle_profile_pre_update(sender, instance, **kwargs):
         # Comparez les champs anciens et nouveaux pour voir s'il y a des modifications
         if previous.etablissement != instance.etablissement:
             # Récupérer le dernier enregistrement de Carriere pour cet utilisateur
+            try:
+                etablissementPoste =  Etablissement_Poste.objects.filter(etablissement = previous.etablissement).filter(user = instance.user).first()
+                poste = etablissementPoste.poste
+            except:
+                etablissementPoste = None
+                poste = None
+            print("POSTEEEEEEEEEEEEEE")
+            print(poste)
             dernier_carriere = Carriere.objects.filter(user = instance.user).order_by('-id').first()
             dernier_carriere.anneeDepart = date.today()
+            dernier_carriere.poste = poste
             dernier_carriere.save()
 
             Carriere.objects.create(
                 user=instance.user,
                 etablissement=instance.etablissement,
                 anneeArrive=date.today(),
+                poste = poste
             )
             # Faire quelque chose si des champs spécifiques ont été modifiés
             print("Un ProfilEnseignant est sur le point d'être modifié pour l'utilisateur :", instance.user)

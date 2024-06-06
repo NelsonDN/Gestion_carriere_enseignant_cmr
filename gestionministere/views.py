@@ -9,6 +9,7 @@ from mimetypes import guess_type
 from django.db.models import Q
 from django.utils.timezone import now
 from dateutil.relativedelta import relativedelta
+from django.db.models import F
 
 
 def is_not_superuser(user):
@@ -61,9 +62,15 @@ def show_enseignant(request, user_id):
     if not is_user_authenticated(request.user, user_id):
         return HttpResponseForbidden("Accès refusé")
     
+    anneeCourante = now().year
+
     user = User.objects.get(pk = user_id)
-    profil = ProfilEnseignant.objects.get(user = user)
+    profil = ProfilEnseignant.objects.annotate(
+                age=anneeCourante - F('dateNaissance__year')
+            ).get(user = user)
+    
     poste_user = None
+
     try:
         poste_user = Etablissement_Poste.objects.get(user=user)
     except:

@@ -145,9 +145,9 @@ ADMIN_ORDERING = (
         'Poste',
         'Etablissement',
         'Enseignant', 
-        # 'Carriere', 
+        'Carriere', 
         # 'ProfilEnseignant',
-        # 'Etablissement_Poste'
+        'Etablissement_Poste'
     ))
     # ('nomination', (
     #     'Etablissement_Poste'

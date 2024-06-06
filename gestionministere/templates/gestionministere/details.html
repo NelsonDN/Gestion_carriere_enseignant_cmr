@@ -276,12 +276,16 @@
                                         </p>
                                         <p class="card-text mb-3"><span class="text-primary">Poste occupé :
                                         </span>
-                                        {% if poste_user %} 
-                                            <span>{{ poste_user.poste }}</span>
+                                        {% if profil.age > 60 %} 
+                                            <span style="color: rgb(236, 115, 135);">En retraite</span>
                                         {% else %}
-                                            <span>Enseignant </span>
+                                            {% if poste_user %} 
+                                                <span>{{ poste_user.poste }}</span>
+                                            {% else %}
+                                                <span>Enseignant </span>
+                                            {% endif %}
                                         {% endif %}
-                                    </p>
+                                    </p>                                  
                                         <p class="card-text mb-3"><span class="text-primary">Année de sortie :
                                             </span>{{ profil.anneeSortie }}</p>
                                         <p class="card-text mb-3"><span class="text-primary">Expérience (Curriculum

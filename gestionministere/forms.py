@@ -17,24 +17,49 @@ class Etablissement_PosteForm(forms.ModelForm):
         etablissementposte = kwargs['instance']
         etablissement = Etablissement.objects.get(pk = etablissementposte.etablissement.id)
         poste = Poste.objects.get(pk = etablissementposte.poste.id)
+        
+        try:
+            proviseur = Poste.objects.get(pk = 1)
+        except:
+            print('proooooooooooo')
 
+        surveillantG = poste
+        try:
+            surveillantG = Poste.objects.get(pk = 2)
+        except:
+            print('sssssssssssssssssss')
+
+        try:
+            censeur = Poste.objects.get(pk = 3)
+        except:
+            print('cccccccccccccccccccccccccccc')
+
+        all_proviseur =  Etablissement_Poste.objects.filter(poste = proviseur).filter(user__isnull=False).values_list('user', flat=True)
+        all_censeur =  Etablissement_Poste.objects.filter(poste = censeur).filter(user__isnull=False).values_list('user', flat=True)
+            
         # les departement de postes 
         departements = Departement.objects.all()
-        employe_ids = Etablissement_Poste.objects.filter(etablissement=etablissement, poste=poste).values_list('user', flat=True)
-        print("emploooooooooooo")
-        print(employe_ids)
-        all_employe_ids =  Etablissement_Poste.objects.all().values_list('user', flat=True)
-        print("alllllllll")
-        print(all_employe_ids)
-        departement_ids = ProfilEnseignant.objects.filter(user__in = employe_ids).values_list('departementOrigine', flat=True)
+        employe_ids = Etablissement_Poste.objects.all().filter(user__isnull=False).values_list('user', flat=True)
+        # print("emploooooooooooo")
+        # print(employe_ids)
+        all_employe_ids =  Etablissement_Poste.objects.filter(etablissement = etablissement).filter(poste = poste).filter(user__isnull=False).values_list('user', flat=True)
+        print("oirginnnnnnnnn")
+        print(all_employe_ids) 
+        departement_ids = ProfilEnseignant.objects.filter(user__in = all_employe_ids).values_list('departementOrigine', flat=True)
         # profils = ProfilEnseignant.objects.exclude(departementOrigine__in = employe_ids).exclude(user__in = all_employe_ids)
+
+        # dernier_carriere = Carriere.objects.filter(user = instance.user).order_by('-id').first()
+        # dernier_carriere.anneeDepart = date.today()
+        # dernier_carriere.poste = etablissementPoste
+        # dernier_carriere.save()
+
 
         # Filtrer les profils dont l'ancienneté est de anciennete_min ans ou plus
         anciennete_min = poste.anciennete_min
         # Calculer l'année actuelle
         anneeCourante = now().year
-        print("ANNEEEEEEEEEEEEEEEEEEEEE")
-        print(anneeCourante)
+        # print("ANNEEEEEEEEEEEEEEEEEEEEE")
+        # print(anneeCourante)
 
         # censeur les matieres 
         if poste.is_censeur:
@@ -42,14 +67,25 @@ class Etablissement_PosteForm(forms.ModelForm):
                 anciennete=anneeCourante - F('anneeSortie__year')
             ).filter(anciennete__gte=anciennete_min
             ).filter(matiere = poste.matiere
+            ).exclude(user__in = all_proviseur
+            ).exclude(user__in = all_censeur
+            ).exclude(departementOrigine__in = departement_ids
+            ).values_list('user', flat=True)
+        elif poste.id == surveillantG.id:
+            profil_enseignant_eligible_ids = ProfilEnseignant.objects.annotate(
+                anciennete=anneeCourante - F('anneeSortie__year')
+            ).filter(anciennete__gte=anciennete_min
+            ).exclude(user__in = all_censeur
+            ).exclude(user__in = all_proviseur
+            ).exclude(departementOrigine__in = departement_ids
             ).values_list('user', flat=True)
         else:
             profil_enseignant_eligible_ids = ProfilEnseignant.objects.annotate(
                 anciennete=anneeCourante - F('anneeSortie__year')
             ).filter(anciennete__gte=anciennete_min
-            ).filter(etablissement=etablissement
+            ).exclude(user__in = all_proviseur
+            ).exclude(departementOrigine__in = departement_ids
             ).values_list('user', flat=True)
-
             # profil_enseignant_eligible_ids = ProfilEnseignant.objects.annotate(
             #     anciennete=anneeCourante - F('anneeSortie__year')
             # ).exclude(departementOrigine__in = employe_ids
@@ -57,11 +93,11 @@ class Etablissement_PosteForm(forms.ModelForm):
             # ).filter(anciennete__gte=anciennete_min
             # ).filter(etablissement=etablissement
             # ).values_list('user', flat=True)
-            print("anciennnnnete")
+            # print("anciennnnnete")
             # for profil in profil_enseignant_eligible_ids:
             #     print(profil.anciennete)
-            print("PORFILLLLLLLLLL")
-            print(profil_enseignant_eligible_ids)
+            # print("PORFILLLLLLLLLL")
+            # print(profil_enseignant_eligible_ids)
 
         users = User.objects.filter(pk__in = profil_enseignant_eligible_ids)
 
